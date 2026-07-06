@@ -7,11 +7,11 @@ def get_fun_fact(language: str) -> dict:
     """Returns a fun fact about the given programming language."""
     client = genai.Client()
     resp = client.models.generate_content(
-        model="gemini-flash-latest",
+        model="gemini-2.5-flash",
         contents=f"One short, surprising, true fun fact about the {language} programming language. One sentence, no preamble.",
     )
     fact = (resp.text or "").strip() or f"(no fact came back for {language})"
-    return {"language": language, "fact": fact, "source": "gemini-flash-latest via get_fun_fact"}
+    return {"language": language, "fact": fact, "source": "gemini-2.5-flash via get_fun_fact"}
 
 
 gpt_analyst = Agent(
@@ -36,7 +36,7 @@ claude_coder = Agent(
 )
 
 root_agent = Agent(
-    model="gemini-flash-latest",
+    model="gemini-2.5-flash",
     name="fact_agent",
     instruction="You share fun facts about programming languages. Use get_fun_fact when the user asks for a fact. When the user asks for pros and cons, delegate to gpt_analyst. When the user asks for a code snippet, delegate to claude_coder.",
     tools=[get_fun_fact],
